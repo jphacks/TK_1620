@@ -18,3 +18,8 @@
 * `nodist global 5`
 * `node -v`
 * npmが入らなかった場合: `nodist npm global match`
+
+### Linux
+* nvmをインストール
+* `nvm install 5`
+* 
