@@ -4,7 +4,17 @@
 ### インストール
 * `npm install fluent-ffmpeg`
 
-## LinuxにNode.js
-* バージョン管理に使う`nvm`をgithubのreadmeに従ってインストール
-* `source ~/.bash_profile`でリロード
-* `nvm install 5`でNode.js 5をインストール
+## express
+### インストール
+* `npm install express-generator -g`
+
+## AWS
+* URL: ec2-54-199-159-238.ap-northeast-1.compute.amazonaws.com
+
+## Node.js
+### Windows
+* nodistをインストール
+* `nodist + 5`
+* `nodist global 5`
+* `node -v`
+* npmが入らなかった場合: `nodist npm global match`
