@@ -1,7 +1,7 @@
-## Node.jsでffmpeg
+# Node.jsでffmpeg
 * https://github.com/fluent-ffmpeg/node-fluent-ffmpeg
 
-### インストール
+## インストール
 * `npm install fluent-ffmpeg`
 
 ## express
