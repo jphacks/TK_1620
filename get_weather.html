@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+  <head>
+    <meta charset="utf-8">
+    <title>simpleWeather.jsサンプル</title>
+    <script src="http://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <script src="js/jquery.simpleWeather.min.js"></script>
+  </head>
+  <body>
+    <div id="weather"></div>
+
+    <script>
+      $(document).ready(function(){
+        $.simpleWeather({
+          location: 'Tokyo, JP',
+          unit: 'c',
+          success: function(weather){
+            html = '<p>'+weather.city+'</p>';
+            html += '<p>'+weather.temp + '&deg;' + weather.units.temp+'</p>';
+            html += '<p>'+weather.text +'(' + weather.code + ')</p>';
+            html += '<p>wind: '+weather.wind.speed +'(chill: ' + weather.wind.chill + ' direction: ' + weather.wind.direction + ')</p>';
+
+            $("#weather").html(html);
+          },
+          error: function(error){
+            $("#weather").html('<p>'+error+'</p>');
+          }
+        });
+        if (navigator.geolocation){
+            alert("OK");
+        } else {
+            alert("NG")
+        }
+
+      });
+    </script>
+  </body>
+</html>
