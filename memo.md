@@ -1,14 +1,14 @@
-# Node.jsでffmpeg
+## Node.jsでffmpeg
 * https://github.com/fluent-ffmpeg/node-fluent-ffmpeg
 
-## インストール
+### インストール
 * `npm install fluent-ffmpeg`
 
 ## express
 ### インストール
 * `npm install express-generator -g`
 
-### アプロ作成
+### アプリ作成
 * `express app`
 * 依存ファイル取得：`cd app & npm install`
   * Vagrantの共有フォルダだとシンボリックリンクを作成できないためエラーになる
@@ -27,4 +27,3 @@
 ### Linux
 * nvmをインストール
 * `nvm install 5`
-*
