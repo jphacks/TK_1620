@@ -27,4 +27,3 @@
 ### Linux
 * nvmをインストール
 * `nvm install 5`
-*
