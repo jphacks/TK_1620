@@ -8,7 +8,7 @@
 ### インストール
 * `npm install express-generator -g`
 
-### アプロ作成
+### アプリ作成
 * `express app`
 * 依存ファイル取得：`cd app & npm install`
   * Vagrantの共有フォルダだとシンボリックリンクを作成できないためエラーになる
