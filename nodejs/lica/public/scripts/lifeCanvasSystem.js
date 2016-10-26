@@ -4,9 +4,11 @@
 var sample=[];
 var animation;
 var canvasRes=720;
+var canvas;
 
 function setup(){
-  createCanvas(canvasRes,canvasRes);
+  canvas = createCanvas(canvasRes, canvasRes);
+  canvas.parent("p5Canvas");
   sample[0]=loadSound('assets/kick1.mp3');
   sample[1]=loadSound('assets/amb1.mp3');
   console.log("set up called.");
