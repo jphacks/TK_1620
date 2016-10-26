@@ -27,3 +27,6 @@
 ### Linux
 * nvmをインストール
 * `nvm install 5`
+
+### gooラボID
+* `c51755ba305f15bdb2476d86ad4492c38eb0be7171778cf32a36f9feb953dfb3`
