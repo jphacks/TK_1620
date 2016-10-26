@@ -5,7 +5,7 @@
 # configures the configuration version (we support older styles for
 # backwards compatibility). Please don't change it unless you know what
 # you're doing.
-Vagrant.configure(2) do |config|
+Vagrant.configure("2") do |config|
   # The most common configuration options are documented and commented below.
   # For a complete reference, please see the online documentation at
   # https://docs.vagrantup.com.
@@ -13,6 +13,7 @@ Vagrant.configure(2) do |config|
   # Every Vagrant development environment requires a box. You can search for
   # boxes at https://atlas.hashicorp.com/search.
   config.vm.box = "ubuntu/trusty64"
+
   # Disable automatic box update checking. If you disable this, then
   # boxes will only be checked for updates when the user runs
   # `vagrant box outdated`. This is not recommended.
@@ -21,7 +22,7 @@ Vagrant.configure(2) do |config|
   # Create a forwarded port mapping which allows access to a specific port
   # within the machine from a port on the host machine. In the example below,
   # accessing "localhost:8080" will access port 80 on the guest machine.
-  config.vm.network "forwarded_port", guest: 3000, host: 3000
+  config.vm.network "forwarded_port", guest: 3000, host: 3002
 
   # Create a private network, which allows host-only access to the machine
   # using a specific IP.
@@ -36,19 +37,19 @@ Vagrant.configure(2) do |config|
   # the path on the host to the actual folder. The second argument is
   # the path on the guest to mount the folder. And the optional third
   # argument is a set of non-required options.
-  # config.vm.synced_folder "./", "/home/vagrant"
+  # config.vm.synced_folder "../data", "/vagrant_data"
 
   # Provider-specific configuration so you can fine-tune various
   # backing providers for Vagrant. These expose provider-specific options.
   # Example for VirtualBox:
   #
-  # config.vm.provider "virtualbox" do |vb|
+  config.vm.provider "virtualbox" do |vb|
   #   # Display the VirtualBox GUI when booting the machine
   #   vb.gui = true
   #
   #   # Customize the amount of memory on the VM:
-  #   vb.memory = "1024"
-  # end
+    vb.memory = "4096"
+  end
   #
   # View the documentation for the provider you are using for more
   # information on available options.
@@ -63,39 +64,13 @@ Vagrant.configure(2) do |config|
   # Enable provisioning with a shell script. Additional provisioners such as
   # Puppet, Chef, Ansible, Salt, and Docker are also available. Please see the
   # documentation for more information about their specific syntax and use.
-   config.vm.provision "shell", inline: <<-SHELLSC
-     function install {
-           echo installing $1
-               shift
-                   apt-get -y install "$@" >/dev/null 2>&1
-     }
+  config.vm.provision "shell", inline: <<-SHELL
+    apt-get update
+    apt-get install git
+    # for Node.js
+    curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.32.1/install.sh | bash
+    source ~/.bashrc
+    nvm install 5
 
-     echo updating package information
-     apt-add-repository -y ppa:brightbox/ruby-ng >/dev/null 2>&1
-     apt-get -y update >/dev/null 2>&1
-
-     install 'development tools' build-essential
-     install Graphviz
-
-     install Ruby ruby2.3 ruby2.3-dev
-     update-alternatives --set ruby /usr/bin/ruby2.3 >/dev/null 2>&1
-     update-alternatives --set gem /usr/bin/gem2.3 >/dev/null 2>&1
-     echo installing Bundler
-     echo "gem: --no-ri --no-rdoc" > ~/.gemrc
-     gem install bundler -N >/dev/null 2>&1
-     install Git git
-     install SQLite sqlite3 libsqlite3-dev
-     install 'Nokogiri dependencies' libxml2 libxml2-dev libxslt1-dev zlib1g-dev
-     install 'ExecJS runtime' nodejs
-     echo 'Installing rails'
-     gem install rails
-     update-locale LANG=en_US.UTF-8 LANGUAGE=en_US.UTF-8 LC_ALL=en_US.UTF-8
-     echo 'You are now on Rails!'
-     echo '        o o o o o o o . . .    ______________________________ _____=======_||____'
-     echo '    o      _____            |                            | |                 |'
-     echo '  .][__n_n_|DD[  ====_____  |                            | |                 |'
-     echo ' >(________|__|_[_________]_|____________________________|_|_________________|'
-     echo ' _/oo OOOOO oo`  ooo   ooo  `o!o!o                  o!o!o` `o!o         o!o`  '
-     echo ' -+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-'
-   SHELLSC
+  SHELL
 end
