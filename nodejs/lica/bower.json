@@ -1,0 +1,21 @@
+{
+  "name": "lica",
+  "description": "",
+  "main": "",
+  "authors": [
+    "idealexe <ideal.exe@live.jp>"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/jphacks/TK_1620",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests",
+    "public/bower_components"
+  ],
+  "dependencies": {
+    "bootstrap": "^3.3.7"
+  }
+}
