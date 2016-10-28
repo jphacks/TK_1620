@@ -13,22 +13,11 @@ var MongoClient = require('mongodb').MongoClient,
     units = 'metric',
     APIKEY = 'fa306447ed12442125f1268ff6bbc6d3',
     url = 'http://api.openweathermap.org/data/2.5/weather?lat='+lat+'&lon='+lon+'&units='+units+'&appid='+APIKEY;
-
-var times = [],
-    lats = [],
-    lons = [],
-    urls = [];
-
-
     // by location
     // url = 'http://api.openweathermap.org/data/2.5/weather?q='+ location +'&units='+ units +'&appid='+ APIKEY;
-
-   // by city id
+    // by city id
     // url = 'http://api.openweathermap.org/data/2.5/weather?id='+ id +'&units='+ units +'&appid='+ APIKEY;
 
-
-
-var i = 0
 
 MongoClient.connect("mongodb://" + settings.host + "/" + settings.db, function(err, db){
   if (err) {
@@ -46,7 +35,14 @@ MongoClient.connect("mongodb://" + settings.host + "/" + settings.db, function(e
       // urls.push(url)
       url = 'http://api.openweathermap.org/data/2.5/weather?lat='+lat+'&lon='+lon+'&units='+units+'&appid='+APIKEY;
 
-      http.get(url, function(res){
+      // プロキシ環境下で必要
+      var options = {
+        host: "proxy.uec.ac.jp",
+        port: 8080,
+        path: url
+      };
+      http.get(options, function(res){
+      // http.get(url, function(res){
         var body = '';
         res.setEncoding('utf-8');
 
@@ -63,7 +59,7 @@ MongoClient.connect("mongodb://" + settings.host + "/" + settings.db, function(e
               console.dir(result)
             });
 
-            var stream = collection.find().stream();
+            var stream = collection.find({},{"_id":0}).stream();
             stream.on("data",function(item){
               console.log(item);
             });
