@@ -33,6 +33,8 @@
 * Node.js
 * p5.js
 * Socket.IO
+* p5.gibber.js
+* web-audio-api
 
 #### デバイス
 * Android端末
