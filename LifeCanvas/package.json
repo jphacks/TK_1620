@@ -12,8 +12,8 @@
     "ejs": "~2.4.1",
     "express": "~4.13.4",
     "morgan": "~1.7.0",
+    "p5.gibber.js": "*",
     "serve-favicon": "~2.3.0",
-    "p5.gibber.js":"*",
-    "socket.io":"*"
+    "socket.io": "^1.5.1"
   }
 }
