@@ -6,7 +6,7 @@ var _canvasSize=800; // キャンバスサイズ
 var _particles=[]; // パーティクルオブジェクトの配列
 var _particleNum=500; // パーティクルの数
 var _sLimit=200; //パーティクルの最大速度
-var _weather="CLOUDY"; //天気の情報(SUNNY,RAINY,CLOUDY)
+var _weather="RAINY"; //天気の情報(SUNNY,RAINY,CLOUDY)
 
 
 function setup(){
