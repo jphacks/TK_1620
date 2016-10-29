@@ -4,20 +4,24 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-var ECT = require('ect');
+
 var routes = require('./routes/index');
 var users = require('./routes/users');
-var io = require('socket.io')
 
-var app = express()
-  , server = require('http').createServer(app)
-  , io = io.listen(server);
+var app = express();
+var http = require('http').Server(app);
 
-app.engine('ect', ECT({ watch: true, root: __dirname + '/views', ext: '.ect' }).render);
+app.get('/', function(req, res){
+  res.sendFile(__dirname + '/index.html');
+});
+
+http.listen(3001, function(){
+  console.log('listening on *:3001');
+});
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'ect');
+app.set('view engine', 'ejs');
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
@@ -35,15 +39,6 @@ app.use(function(req, res, next) {
   var err = new Error('Not Found');
   err.status = 404;
   next(err);
-});
-
-// socket.io
-server.listen(app.get('port'))
-
-io.sockets.on('connection', function(socket) {
-  socket.on('message:send', function(data) {
-    io.sockets.emit('message:receive', { message: data.message });
-  });
 });
 
 // error handlers
