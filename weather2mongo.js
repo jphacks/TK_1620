@@ -65,9 +65,9 @@ MongoClient.connect("mongodb://" + settings.host + "/" + settings.db, function(e
           temp.name = JSON.parse(data).name;
           temp.weather = JSON.parse(data).weather[0].main;
           temp.temperature = JSON.parse(data).main.temp;
-          // console.log(temp);
           docs.push(temp);
         });
+
         res.on('end', function(data){
           console.log(temp);
           db.collection("users", function(err, collection){
