@@ -16,15 +16,11 @@ app.get('/', function(req, res){
   res.sendFile(__dirname + '/index.html');
 });
 
-var socket = io.listen(server);
-socket.on('connection', function(client){
-	client.on('message', function(data) {
-		console.log(data);
-	});
-
-	client.on('disconnect', function(){
-     		console.log('Conncection closed.');
-	});
+io.on('connection', function(socket){
+  console.log('a user connected');
+  socket.on('disconnect', function(){
+    console.log('user disconnected');
+  });
 });
 
 http.listen(3001, function(){
