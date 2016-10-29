@@ -8,6 +8,7 @@ var express = require('express');
 var app = express();
 var server = require('http').createServer(app);
 var io = require('socket.io')(server);
+
 var port = process.env.PORT || 3000;
 
 var http = require('http'),
@@ -25,8 +26,8 @@ server.listen(port, function () {
 
 // Routing
 app.use(express.static(__dirname + '/sample'));
-console.log(__dirname);
 
+// socket.io
 io.on('connection', function (socket) {
   socket.emit('news', { hello: 'world' });
   socket.on('my other event', function (data) {
@@ -38,7 +39,7 @@ MongoClient.connect("mongodb://" + settings.host + "/" + settings.db, function(e
   if (err) {
     return console.dir(err);
   }
-
+  var docs = []
   console.log("connected to db");
   for (var i = 0; i < Object.keys(json).length; i++){
       time = json[i].time;
@@ -52,22 +53,26 @@ MongoClient.connect("mongodb://" + settings.host + "/" + settings.db, function(e
       //   port: 8080,
       //   path: url
       // };
-
       // http.get(options, function(res){
       http.get(url, function(res){
+        var temp = {};
         var body = '';
         res.setEncoding('utf-8');
 
         res.on('data', function(data){
           body += data;
+          temp.time = JSON.parse(data).dt;
+          temp.name = JSON.parse(data).name;
+          temp.weather = JSON.parse(data).weather[0].main;
+          temp.temperature = JSON.parse(data).main.temp;
+          // console.log(temp);
+          docs.push(temp);
         });
         res.on('end', function(data){
+          console.log(temp);
           db.collection("users", function(err, collection){
-            var docs = [
-              {time: Date(JSON.parse(body).dt * 1000), location: JSON.parse(body).name, id: JSON.parse(body).id, weather: JSON.parse(body).weather, condition: JSON.parse(body).main}
-            ];
             // DBに保管
-            collection.insert(docs, function(err, result){
+            collection.insert(temp, function(err, result){
               console.dir(result)
             });
           });
