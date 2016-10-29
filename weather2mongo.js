@@ -10,28 +10,22 @@ var server = require('http').createServer(app);
 var io = require('socket.io')(server);
 var port = process.env.PORT || 3000;
 
-server.listen(port, function () {
-  console.log('Server listening at port %d', port);
-});
-
 var http = require('http'),
     json = require('./sensor_data/lat_and_lon/output.json');
-
 var lat,
     lon;
-
 var units = 'metric',
     APIKEY = 'fa306447ed12442125f1268ff6bbc6d3',
     url = 'http://api.openweathermap.org/data/2.5/weather?lat='+lat+'&lon='+lon+'&units='+units+'&appid='+APIKEY;
 
 
-// server.listen(80);
+server.listen(port, function () {
+  console.log('Server listening at port %d', port);
+});
 
-// app.get('/', function (req, res) {
-//   res.sendfile(__dirname + '/index.html');
-// });
 // Routing
-app.use(express.static(__dirname + '/public'));
+app.use(express.static(__dirname + '/sample'));
+console.log(__dirname);
 
 io.on('connection', function (socket) {
   socket.emit('news', { hello: 'world' });
@@ -39,8 +33,6 @@ io.on('connection', function (socket) {
     console.log(data);
   });
 });
-
-
 
 MongoClient.connect("mongodb://" + settings.host + "/" + settings.db, function(err, db){
   if (err) {
@@ -77,13 +69,6 @@ MongoClient.connect("mongodb://" + settings.host + "/" + settings.db, function(e
             // DBに保管
             collection.insert(docs, function(err, result){
               console.dir(result)
-            });
-
-            var stream = collection.find({},{"_id":0}).stream();
-            stream.on("data",function(item){
-              console.log(item);
-            });
-            stream.on("end",function(){
             });
           });
         });
