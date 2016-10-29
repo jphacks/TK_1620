@@ -20,6 +20,10 @@ io.on('connection', function(socket){
   console.log('a user connected');
 });
 
+socket.on('c2s_message', function(data){
+  console.log(data)
+})
+
 http.listen(3001, function(){
   console.log('listening on *:3001');
 });

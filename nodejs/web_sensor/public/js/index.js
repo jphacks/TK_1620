@@ -18,6 +18,7 @@
     //ジャイロセンサー情報取得
     // X軸
     beta = event.beta;
+    socket.send(beta);
     // Y軸
     gamma = event.gamma;
     // Z軸
