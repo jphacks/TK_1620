@@ -29,20 +29,18 @@ MongoClient.connect("mongodb://" + settings.host + "/" + settings.db, function(e
       time = json[i].time;
       lat = json[i].lat;
       lon = json[i].lon;
-      // times.push(time);
-      // lats.push(lat);
-      // lons.push(lon);
-      // urls.push(url)
+
       url = 'http://api.openweathermap.org/data/2.5/weather?lat='+lat+'&lon='+lon+'&units='+units+'&appid='+APIKEY;
 
       // プロキシ環境下で必要
-      var options = {
-        host: "proxy.uec.ac.jp",
-        port: 8080,
-        path: url
-      };
-      http.get(options, function(res){
-      // http.get(url, function(res){
+      // var options = {
+      //   host: "proxy.uec.ac.jp",
+      //   port: 8080,
+      //   path: url
+      // };
+
+      // http.get(options, function(res){
+      http.get(url, function(res){
         var body = '';
         res.setEncoding('utf-8');
 
@@ -52,7 +50,7 @@ MongoClient.connect("mongodb://" + settings.host + "/" + settings.db, function(e
         res.on('end', function(data){
           db.collection("users", function(err, collection){
             var docs = [
-              {location: JSON.parse(body).name, id: JSON.parse(body).id, weather: JSON.parse(body).weather, condition: JSON.parse(body).main}
+              {time: JSON.parse(body).dt, location: JSON.parse(body).name, id: JSON.parse(body).id, weather: JSON.parse(body).weather, condition: JSON.parse(body).main}
             ];
             // DBに保管
             collection.insert(docs, function(err, result){
