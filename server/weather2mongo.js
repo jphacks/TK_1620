@@ -47,6 +47,14 @@ MongoClient.connect("mongodb://" + settings.host + "/" + settings.db, function(e
       lon = json[i].lon;
       url = 'http://api.openweathermap.org/data/2.5/weather?lat='+lat+'&lon='+lon+'&units='+units+'&appid='+APIKEY;
 
+      // プロキシ環境下で必要
+      // var options = {
+      //   host: "proxy.uec.ac.jp",
+      //   port: 8080,
+      //   path: url
+      // };
+      // http.get(options, function(res){
+      http.get(url, function(res){
         var temp = {};
         var body = '';
         res.setEncoding('utf-8');
