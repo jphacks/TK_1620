@@ -1,6 +1,9 @@
 (function () {
 
   var $zo;
+  var beta;
+  var gamma;
+  var alpha;
 
   $(function () {
     $zo = $("#zo");
@@ -14,16 +17,18 @@
   function deviceorientationHandler(event) {
     //ジャイロセンサー情報取得
     // X軸
-    var beta = event.beta;
+    beta = event.beta;
     // Y軸
-    var gamma = event.gamma;
+    gamma = event.gamma;
     // Z軸
-    var alpha = event.alpha;
+    alpha = event.alpha;
     var html = "";
     html += "X回転 : " + beta + "<br>";
     html += "Y回転 : " + gamma + "<br>";
     html += 'Z回転 : ' + alpha;
     $("#debug").html(html);
+
+    socket.emit('sensor_update', beta)
 
     $zo.css({
       "-webkit-transform": "rotateX(" + (180 + beta) + "deg) rotateY(" + (180 + gamma) + "deg) rotateZ(" + alpha + "deg)",

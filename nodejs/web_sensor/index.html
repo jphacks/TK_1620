@@ -10,9 +10,14 @@
 	<link rel="stylesheet" href="/css/index.css" />
 	<script src="/common/js/jquery-1.11.1.min.js"></script>
 	<script src="/js/index.js"></script>
+	<script src="/js/sensor_stream.js"></script>
+	<script src="/socket.io/socket.io.js"></script>
+	<script>
+	var socket = io();
+	</script>
 </head>
 <body>
-<img id="zo" src="/images/zo.png" width="251" height="172" alt="" />
-<div id="debug"></div>
+	<img id="zo" src="/images/zo.png" width="251" height="172" alt="" />
+	<div id="debug"></div>
 </body>
 </html>
