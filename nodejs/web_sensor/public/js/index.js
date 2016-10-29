@@ -28,7 +28,7 @@
     html += 'Z回転 : ' + alpha;
     $("#debug").html(html);
 
-    socket.emit('sensor_update', beta)
+    socket.emit('sensor_update', [beta, gamma, alpa])
 
     $zo.css({
       "-webkit-transform": "rotateX(" + (180 + beta) + "deg) rotateY(" + (180 + gamma) + "deg) rotateZ(" + alpha + "deg)",
