@@ -1,17 +1,17 @@
-var fs = require('fs');
-var http = require('http');
-var server = http.createServer();
+var app = require('express')();
+var server = require('http').Server(app);
+var io = require('socket.io')(server);
 
-server.on('request', function(req, res) {
-  var stream = fs.createReadStream('index.html');
-  res.writeHead(200, {'Content-Type': 'text/html'});
-  stream.pipe(res);
+server.listen(3000);
+
+app.get('/', function (req, res) {
+  res.sendFile(__dirname + '/index.html');
+  console.log("sent index.html");
 });
-var io = require('socket.io').listen(server);
-server.listen(8000);
 
-io.sockets.on('connection', function(socket) {
-  socket.emit('greeting', {message: 'hello'}, function (data) {
-    console.log('result: ' + data);
+io.on('connection', function (socket) {
+  socket.emit('news', { hello: 'world' });
+  socket.on('my other event', function (data) {
+    console.log(data);
   });
 });
