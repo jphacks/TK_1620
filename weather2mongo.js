@@ -1,9 +1,20 @@
 var MongoClient = require('mongodb').MongoClient,
     settings = require('./js/settings'),
-    fs = require('fs'),
-    express = require('express');
+    fs = require('fs');
 
-    http = require('http'),
+// var app = require('express')();
+// var server = require('http').Server(app);
+var express = require('express');
+var app = express();
+var server = require('http').createServer(app);
+var io = require('socket.io')(server);
+var port = process.env.PORT || 3000;
+
+server.listen(port, function () {
+  console.log('Server listening at port %d', port);
+});
+
+var http = require('http'),
     json = require('./sensor_data/lat_and_lon/output.json');
 
 var lat,
@@ -14,20 +25,35 @@ var units = 'metric',
     url = 'http://api.openweathermap.org/data/2.5/weather?lat='+lat+'&lon='+lon+'&units='+units+'&appid='+APIKEY;
 
 
+// server.listen(80);
+
+// app.get('/', function (req, res) {
+//   res.sendfile(__dirname + '/index.html');
+// });
+// Routing
+app.use(express.static(__dirname + '/public'));
+
+io.on('connection', function (socket) {
+  socket.emit('news', { hello: 'world' });
+  socket.on('my other event', function (data) {
+    console.log(data);
+  });
+});
+
+
+
 MongoClient.connect("mongodb://" + settings.host + "/" + settings.db, function(err, db){
   if (err) {
     return console.dir(err);
   }
-  console.log("connected to db");
 
+  console.log("connected to db");
   for (var i = 0; i < Object.keys(json).length; i++){
       time = json[i].time;
       lat = json[i].lat;
       lon = json[i].lon;
       url = 'http://api.openweathermap.org/data/2.5/weather?lat='+lat+'&lon='+lon+'&units='+units+'&appid='+APIKEY;
-      console.log(time);
-      console.log(lat);
-      console.log(lon);
+
       // プロキシ環境下で必要
       // var options = {
       //   host: "proxy.uec.ac.jp",
@@ -46,7 +72,7 @@ MongoClient.connect("mongodb://" + settings.host + "/" + settings.db, function(e
         res.on('end', function(data){
           db.collection("users", function(err, collection){
             var docs = [
-              {time: JSON.parse(body).dt, location: JSON.parse(body).name, id: JSON.parse(body).id, weather: JSON.parse(body).weather, condition: JSON.parse(body).main}
+              {time: Date(JSON.parse(body).dt * 1000), location: JSON.parse(body).name, id: JSON.parse(body).id, weather: JSON.parse(body).weather, condition: JSON.parse(body).main}
             ];
             // DBに保管
             collection.insert(docs, function(err, result){
@@ -58,7 +84,6 @@ MongoClient.connect("mongodb://" + settings.host + "/" + settings.db, function(e
               console.log(item);
             });
             stream.on("end",function(){
-              console.log("finished.");
             });
           });
         });
