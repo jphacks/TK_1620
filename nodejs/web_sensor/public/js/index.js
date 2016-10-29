@@ -18,7 +18,6 @@
     //ジャイロセンサー情報取得
     // X軸
     beta = event.beta;
-    console.log(beta);
     // Y軸
     gamma = event.gamma;
     // Z軸
