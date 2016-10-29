@@ -7,8 +7,11 @@ var bodyParser = require('body-parser');
 var ECT = require('ect');
 var routes = require('./routes/index');
 var users = require('./routes/users');
+var io = require('socket.io')
 
-var app = express();
+var app = express()
+  , server = require('http').createServer(app)
+  , io = io.listen(server);
 
 app.engine('ect', ECT({ watch: true, root: __dirname + '/views', ext: '.ect' }).render);
 
@@ -32,6 +35,15 @@ app.use(function(req, res, next) {
   var err = new Error('Not Found');
   err.status = 404;
   next(err);
+});
+
+// socket.io
+server.listen(app.get('port'))
+
+io.sockets.on('connection', function(socket) {
+  socket.on('message:send', function(data) {
+    io.sockets.emit('message:receive', { message: data.message });
+  });
 });
 
 // error handlers
