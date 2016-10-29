@@ -1,6 +1,6 @@
 (function () {
 
-  var $zo;
+  var $logo;
   var beta;
   var gamma;
   var alpha;
@@ -8,7 +8,7 @@
   var motionXprev=0, motionYprev=0, motionZprev=0;
 
   $(function () {
-    $zo = $("#zo");
+    $logo = $("#logo");
     window.addEventListener("deviceorientation", deviceorientationHandler);
     window.addEventListener("devicemotion", motionHandler);
   });
@@ -44,7 +44,7 @@
 
     socket.emit('sensor_update', ["orientation", beta, gamma, alpha]);
 
-    $zo.css({
+    $logo.css({
       "-webkit-transform": "rotateX(" + (180 + beta) + "deg) rotateY(" + (180 + gamma) + "deg) rotateZ(" + alpha + "deg)",
       "transform": "rotateX(" + (180 + beta) + "deg) rotateY(" + (180 + gamma) + "deg) rotateZ(" + alpha + "deg)"
     })
