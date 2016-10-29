@@ -9,6 +9,15 @@ var routes = require('./routes/index');
 var users = require('./routes/users');
 
 var app = express();
+var http = require('http').Server(app);
+
+app.get('/', function(req, res){
+  res.sendFile('/index.html');
+});
+
+http.listen(3000, function(){
+  console.log('listening on *:3000');
+});
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
