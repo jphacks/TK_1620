@@ -22,6 +22,7 @@
 </head>
 <body>
   <div class="container">
+
     <div class="panel panel-primary">
       <div class="panel-heading">
         <h3 class="panel-title">Panel title</h3>
@@ -29,9 +30,25 @@
       <div class="panel-body">
         <script src="scripts/animation.js"></script>
         <script src="scripts/lifeCanvasSystem.js"></script>
-	<div id = "p5Canvas"></div>
+        <div id = "p5Canvas"></div>
       </div>
     </div>
+
+    <div class="panel panel-primary">
+      <div class="panel-heading">
+        <h3 class="panel-title">Panel title</h3>
+      </div>
+      <div class="panel-body">
+        <div class="input-append">
+          <input class="span5" id="message" type="text" placeholder="入力してください">
+          <button class="btn btn-primary" type="button" onclick="send()">送信</button>
+        </div>
+        <div id="chat-area" style="height: 300px; overflow: scroll;"></div>
+        <script src="/socket.io/socket.io.js"></script>
+        <script src="/javascripts/chat.js"></script>
+      </div>
+    </div>
+
   </div><!-- container -->
 
   <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
