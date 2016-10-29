@@ -18,7 +18,6 @@
     //ジャイロセンサー情報取得
     // X軸
     beta = event.beta;
-    socket.send(beta);
     // Y軸
     gamma = event.gamma;
     // Z軸
@@ -28,6 +27,8 @@
     html += "Y回転 : " + gamma + "<br>";
     html += 'Z回転 : ' + alpha;
     $("#debug").html(html);
+
+    socket.emit('sensor_update', beta)
 
     $zo.css({
       "-webkit-transform": "rotateX(" + (180 + beta) + "deg) rotateY(" + (180 + gamma) + "deg) rotateZ(" + alpha + "deg)",
