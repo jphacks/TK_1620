@@ -16,13 +16,15 @@ app.get('/', function(req, res){
   res.sendFile(__dirname + '/index.html');
 });
 
-io.on('connection', function(socket){
-  console.log('a user connected');
+var socket = io.listen(server);
+socket.on('connection', function(client){
+	client.on('message', function(data) {
+		console.log(data);
+	});
 
-  socket.on('c2s_message', function(data){
-    console.log(data)
-  });
-  
+	client.on('disconnect', function(){
+     		console.log('Conncection closed.');
+	});
 });
 
 http.listen(3001, function(){
