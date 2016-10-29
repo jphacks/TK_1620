@@ -1,6 +1,9 @@
 (function () {
 
   var $zo;
+  var beta;
+  var gamma;
+  var alpha;
 
   $(function () {
     $zo = $("#zo");
@@ -14,11 +17,11 @@
   function deviceorientationHandler(event) {
     //ジャイロセンサー情報取得
     // X軸
-    var beta = event.beta;
+    beta = event.beta;
     // Y軸
-    var gamma = event.gamma;
+    gamma = event.gamma;
     // Z軸
-    var alpha = event.alpha;
+    alpha = event.alpha;
     var html = "";
     html += "X回転 : " + beta + "<br>";
     html += "Y回転 : " + gamma + "<br>";
