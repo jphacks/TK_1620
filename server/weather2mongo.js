@@ -12,7 +12,7 @@ var io = require('socket.io')(server);
 var port = process.env.PORT || 3000;
 
 var http = require('http'),
-    json = require('./sensor_data/lat_and_lon/output.json');
+    json = require('../sensor_data/lat_and_lon/output.json');
 var lat,
     lon;
 var units = 'metric',
