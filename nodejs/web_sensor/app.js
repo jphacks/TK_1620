@@ -20,7 +20,7 @@ io.on('connection', function(socket){
   console.log('a user connected');
 
   socket.on('sensor_update', function(data){
-    console.log(data)  
+    console.log(data)
   });
 
   socket.on('disconnect', function(){
