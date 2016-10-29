@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head lang="ja">
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+	<meta http-equiv="content-language" content="ja">
+
+	<title>LifeCanvas</title>
+
+	<link rel="stylesheet" href="/common/css/common.css" />
+	<link rel="stylesheet" href="/common/css/normalize.css" />
+	<link rel="stylesheet" href="/css/index.css" />
+
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.4/p5.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.4/addons/p5.sound.js"></script>
+  <script src='node_modules/p5.gibber.js/dist/p5.gibber.min.js'></script>
+
+	<script src="/common/js/jquery-1.11.1.min.js"></script>
+	<script src="/js/index.js"></script>
+	<script src="/socket.io/socket.io.js"></script>
+	<script>
+	var socket = io();
+	</script>
+</head>
+<body>
+	<img id="zo" src="/images/zo.png" width="251" height="172" alt="" />
+	<div id="debug"></div>
+</body>
+</html>
