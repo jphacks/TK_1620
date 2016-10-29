@@ -16,6 +16,10 @@ app.get('/', function(req, res){
   res.sendFile(__dirname + '/index.html');
 });
 
+app.get('/p5', function(req, res){
+  res.sendFile(__dirname + '/p5.html')  
+});
+
 io.on('connection', function(socket){
   console.log('a user connected');
 
