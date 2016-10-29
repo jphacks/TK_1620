@@ -1,12 +1,15 @@
 /********************************************/
 /* グローバル変数
 /********************************************/
-var _canvasSize=800; // キャンバスサイズ
+var _canvasSize=720; // キャンバスサイズ
 
 var _particles=[]; // パーティクルオブジェクトの配列
 var _particleNum=500; // パーティクルの数
-var _sLimit=220; //パーティクルの最大速度
+var _sLimit=240; //パーティクルの最大速度
 var _weather="SNOWY"; //天気の情報(SUNNY,RAINY,CLOUDY,SNOWY)
+var _frameMaskBl;
+var _frameMaskWh;
+var _frameMaskCol; // フレーム更新時のマスク
 
 
 function setup(){
@@ -14,32 +17,67 @@ function setup(){
   colorMode(HSB, 360, 100, 100, 1);
   background(0);
 
+  _frameMaskBl=color('hsba(1,1%,0%,0.035)');
+  _frameMaskWh=color('hsba(1,1%,100%,0.035)');
+  _frameMaskCol=_frameMaskBl;
+
+  // パーティクルのインスタンスを生成する
   for (var i=0; i<_particleNum; i++) {
     _particles.push(new Particle());
   }
-  console.log(random(1,3));
+
   mouseX=width/2
   mouseY=height/2;
+
+
+  gbXox=XOX('x.....x.....x...');
+  gbPluck = Pluck();
+  gbDelay=Delay();
+  gbSeq=Seq({
+    time: Rndi( ms(2), ms(1000) ),
+    durations:1/32,
+    target: gbDelay
+  });
+  gbPluck.note.seq( [0, 2], [1/8,1/16].rnd(1/16,2) ).pan.seq(Rndf(-0.8,0.8)).damping(0.3).fx.add(Schizo());
+  gbPluck.blend.seq( Rndf(0.8,1) );
+  gbPluck.fx.add(gbDelay);
+
+  gbBass = Mono( 'bass2' ,{waveform:'Square'}).amp(.1).note.seq( [0, 2], [1/8,1/16].rnd(1/16,2) );
+  gbPad = Synth2( 'pad2', { amp:.85 } ).chord.seq( Rndi(0,2,9), 2 ).fx.add( Delay() );
+
 }
 
 function draw(){
   noStroke();
-  background(1,100,1,0.035);    // パーティクルを上塗りする量
+  // パーティクルを上塗りする量
+   background(_frameMaskCol);
 
+  // パーティクルの更新と描画
   for(var i=0;i<_particles.length;i++){
     _particles[i].update();
     _particles[i].draw();
-    // var dia=random(2,10);
-    // stroke(208,round(random(0,100)),100,0.03);
-    // line(width/2,height/2,_particles[i].pos.x,_particles[i].pos.y);
-    // ellipse(_particles[i].pos.x,_particles[i].pos.y,dia,dia);
   }
-  // if(random()<0.03)  hamon(random(width),random(height),50+random(),random(10,50),random(1,5),color(random(170,250)%360,100,100));
+
 }
 
 function mousePressed(){
   for(var i=0;i<_particles.length;i++){
     _particles[i].inv();
+  }
+}
+
+function keyTyped() {
+  if (key === 'a') {
+    _frameMaskCol=(_frameMaskCol==_frameMaskBl)?_frameMaskWh:_frameMaskBl;
+  } else if(key=='s'){
+    for(var i=0;i<_particles.length;i++){
+      _particles[i].mirror();
+    }
+  }
+  else {
+    for(var i=0;i<_particles.length;i++){
+      _particles[i].dilation();
+    }
   }
 }
 
@@ -51,7 +89,8 @@ var Particle=function(){
   this.ac= createVector(0,0);
   // this.mouse= createVector(width/2,height/2);
   this.tune=random(3,20);
-  this.strokeW=random(0.1,2);
+  this.strokeW=random(0.1,3);
+  this.initStrokeW=this.strokeW;
 
   switch(_weather){
     case "SUNNY":
@@ -81,6 +120,11 @@ Particle.prototype={
     if(this.pos.y<0||this.pos.y>height){
       this.sp.y*=-0.5;
     }
+    if(this.strokeW>this.initStrokeW){
+      this.strokeW-=0.5;
+    }else if(this.strokeW<this.initStrokeW){
+      this.strokeW=this.initStrokeW;
+    }
 
     attraction=createVector(mouseX,mouseY);
     attraction.sub(this.pos);
@@ -101,13 +145,13 @@ Particle.prototype={
     if(this.pos.x>width || this.pos.x<0){
       this.sp.x*=-0.5;
     }else{
-      this.sp.x*=-5;
+      this.sp.x*=-6;
       this.ac.x*=-1;
     }
     if(this.pos.y<0||this.pos.y>height){
       this.sp.y*=-0.5;
     }else{
-      this.sp.y*=-5;
+      this.sp.y*=-6;
       this.ac.y*=-1;
     }
 
@@ -119,6 +163,15 @@ Particle.prototype={
     this.sp.add(this.ac);
     // this.sp.limit(_sLimit*(1.0/20.0));
     this.pos.add(this.sp);
+  },
+  dilation :function(){
+    if(this.strokeW<5){
+      this.strokeW*=4;
+    }
+  },
+  mirror : function(){
+    this.pos.set(width-this.pos.x,height-this.pos.y);
+    // this.pos.y=height-this.pos.y;
   }
 };
 
