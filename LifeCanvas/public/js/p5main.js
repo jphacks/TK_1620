@@ -12,6 +12,7 @@ var _frameMaskWh;
 var _frameMaskCol; // フレーム更新時のマスク
 var size = 0;
 var _pointer;
+// var cnt=0;
 
 function setup(){
   createCanvas(_canvasSize,_canvasSize);
@@ -103,7 +104,9 @@ function draw(){
     //console.log(data);
   });
   //ellipse(width/2, height/2, size, size);
-
+  // _pointer.update(cnt,cnt);
+  // ellipse(_pointer.x,_pointer.y,30,30);
+  // cnt++;
 }
 
 function mousePressed(){
@@ -275,16 +278,17 @@ var Pointer=function(){
 };
 
 Pointer.prototype={
-  update : function(x,y){
+  update : function(pointx,pointy){
     //this.pre=createVector(this.pos.x,this.pos.y);
-    if(this.pos.x>width || this.pos.x<0){
-      this.ac.x*=-1.0;
-    }
-    if(this.pos.y<0||this.pos.y>height){
-      this.sp.y*=-1.0;
-    }
-    this.pos.ac.x=x;
-    this.pos.ac.y=y;
+    // this.ac.x=pointx;
+    // this.ac.y=pointy;
+    // if(this.pos.x>width || this.pos.x<0){
+    //   this.ac.x*=-1.0;
+    // }
+    // if(this.pos.y<0||this.pos.y>height){
+    //   this.ac.y*=-1.0;
+    // }
+
     // attraction=createVector(_pointer.pos.x,_pointer.pos.y);
     // attraction.sub(this.pos);
     // this.ac.set(attraction);
@@ -293,8 +297,8 @@ Pointer.prototype={
     // this.sp.add(this.ac);
     // this.sp.limit(_sLimit*(1.0/60.0));
     // this.pos.add(this.sp);
-    this.pos.x+=this.ac.x;
-    this.pos.y+=this.ac.y;
+    this.pos.x=pointx;
+    this.pos.y=pointy;
   }
 };
 
