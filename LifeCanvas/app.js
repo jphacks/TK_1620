@@ -26,8 +26,8 @@ io.on('connection', function(socket){
   console.log('a user connected');
 
   socket.on('sensor_update', function(data){
-    size = data[1];
-    console.log(size);
+    console.log(data);
+    socket.broadcast.emit('sensor_data', data);
   });
 
   socket.on('disconnect', function(){

@@ -10,7 +10,7 @@ var _weather="SNOWY"; //天気の情報(SUNNY,RAINY,CLOUDY,SNOWY)
 var _frameMaskBl;
 var _frameMaskWh;
 var _frameMaskCol; // フレーム更新時のマスク
-
+var size = 0;
 
 function setup(){
   createCanvas(_canvasSize,_canvasSize);
@@ -58,6 +58,10 @@ function draw(){
     _particles[i].draw();
   }
 
+  socket.on('sensor_data', function(data){
+    size = data[1]*10;
+    console.log(data);
+  });
   ellipse(width/2, height/2, size, size);
 
 }
