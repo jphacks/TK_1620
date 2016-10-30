@@ -16,7 +16,7 @@
 <body>
 
   <div class="page-header">
-    <h3>クラスメソッド開発ブログ</h3>
+    <h3></h3>
   </div>
   <div class="hero-unit">
     <div class="input-append">
@@ -30,6 +30,11 @@
   <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.1.1/js/bootstrap.min.js"></script>
   <script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
   <script>
+    if(navigator.geolocation){
+      alert("OK!");
+    } else {
+      alert("NG!")
+    }
     var socket = io.connect('http://localhost:3000');
     socket.on('news', function (data) {
       console.log(data);
