@@ -12,6 +12,7 @@ var _frameMaskWh;
 var _frameMaskCol; // フレーム更新時のマスク
 var size = 0;
 var _pointer;
+// var cnt=0;
 
 function setup(){
   createCanvas(_canvasSize,_canvasSize);
@@ -102,8 +103,6 @@ function draw(){
     }
     //console.log(data);
   });
-  //ellipse(width/2+data[1], height/2+data[2], 10, 10);
-
 }
 
 function mousePressed(){
@@ -277,6 +276,15 @@ var Pointer=function(){
 Pointer.prototype={
   update : function(pointx,pointy){
     //this.pre=createVector(this.pos.x,this.pos.y);
+    // this.ac.x=pointx;
+    // this.ac.y=pointy;
+    // if(this.pos.x>width || this.pos.x<0){
+    //   this.ac.x*=-1.0;
+    // }
+    // if(this.pos.y<0||this.pos.y>height){
+    //   this.ac.y*=-1.0;
+    // }
+
     // attraction=createVector(_pointer.pos.x,_pointer.pos.y);
     // attraction.sub(this.pos);
     // this.ac.set(attraction);
