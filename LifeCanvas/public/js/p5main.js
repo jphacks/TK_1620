@@ -58,7 +58,7 @@ function draw(){
     _particles[i].draw();
   }
 
-  ellipse(width/2, height/2, 10, 10);
+  ellipse(width/2, height/2, size, size);
 
 }
 
