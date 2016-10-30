@@ -34,7 +34,6 @@
   * @param event
   */
   function deviceorientationHandler(event) {
-    if (event_counter%event_interval ==0){
       //ジャイロセンサー情報取得
       // X軸
       beta = event.beta;
@@ -48,6 +47,7 @@
       html += 'Z回転 : ' + alpha;
       $("#debug").html(html);
 
+    if (event_counter%event_interval ==0){
       socket.emit('sensor_update', ["orientation", beta, gamma, alpha]);
     }
     event_counter += 1;
