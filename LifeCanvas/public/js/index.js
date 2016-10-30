@@ -45,8 +45,8 @@
     socket.emit('sensor_update', ["orientation", beta, gamma, alpha]);
 
     $logo.css({
-      "-webkit-transform": "rotateX(" + (0 + beta) + "deg) rotateY(" + (0 + gamma) + "deg) rotateZ(" + (0 + alpha) + "deg)",
-      "transform": "rotateX(" + (180 + beta) + "deg) rotateY(" + (180 + gamma) + "deg) rotateZ(" + (180 + alpha) + "deg)"
+      "-webkit-transform": "rotateX(" + (135 + beta) + "deg) rotateY(" + (180 + gamma) + "deg) rotateZ(" + (180 + alpha) + "deg)",
+      "transform": "rotateX(" + (135 + beta) + "deg) rotateY(" + (180 + gamma) + "deg) rotateZ(" + (180 + alpha) + "deg)"
     })
   }
 })();
