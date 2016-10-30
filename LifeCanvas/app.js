@@ -12,19 +12,22 @@ var app = express();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
 
+var size = 0;
+
 app.get('/', function(req, res){
   res.sendFile(__dirname + '/index.html');
 });
 
 app.get('/p5', function(req, res){
-  res.sendFile(__dirname + '/p5.html')  
+  res.sendFile(__dirname + '/p5.html')
 });
 
 io.on('connection', function(socket){
   console.log('a user connected');
 
   socket.on('sensor_update', function(data){
-    console.log(data)
+    size = data[1];
+    console.log(size);
   });
 
   socket.on('disconnect', function(){
