@@ -96,13 +96,13 @@ function draw(){
   }
 
   socket.on('sensor_data', function(data){
-    if (data[0] == "acceleration"){
+    if (data[0] == "orientation"){
       //size = data[1]*100;
       _pointer.update(data[1],data[2]);
     }
     //console.log(data);
   });
-  //ellipse(width/2, height/2, size, size);
+  //ellipse(width/2+data[1], height/2+data[2], 10, 10);
 
 }
 
@@ -275,16 +275,8 @@ var Pointer=function(){
 };
 
 Pointer.prototype={
-  update : function(x,y){
+  update : function(pointx,pointy){
     //this.pre=createVector(this.pos.x,this.pos.y);
-    if(this.pos.x>width || this.pos.x<0){
-      this.ac.x*=-1.0;
-    }
-    if(this.pos.y<0||this.pos.y>height){
-      this.sp.y*=-1.0;
-    }
-    this.pos.ac.x=x;
-    this.pos.ac.y=y;
     // attraction=createVector(_pointer.pos.x,_pointer.pos.y);
     // attraction.sub(this.pos);
     // this.ac.set(attraction);
@@ -293,14 +285,13 @@ Pointer.prototype={
     // this.sp.add(this.ac);
     // this.sp.limit(_sLimit*(1.0/60.0));
     // this.pos.add(this.sp);
-    this.pos.x+=this.ac.x;
-    this.pos.y+=this.ac.y;
+    this.pos.x = (pointx+180)*width/360;
+    this.pos.y = (pointy+180)*height/360;
   }
 };
 
 
-// var Particle=(function(){
-//     // クラス変数
+// var Particle=(function(){//     // クラス変数
 //     //var pos,pre,mouse,sp,ac,col;
 //     var tune=random(3,10);
 //     // var tune=3;
