@@ -1,5 +1,0 @@
-{
-   "_comment": "bowerのコンポーネントはブラウザがアクセス可能なpublic下に置く．設定ファイル名はbower.jsonとする．",
-   "directory": "public/bower_components",
-   "json": "bower.json"
-}
