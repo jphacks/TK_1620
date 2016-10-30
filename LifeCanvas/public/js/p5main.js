@@ -59,7 +59,9 @@ function draw(){
   }
 
   socket.on('sensor_data', function(data){
-    size = data[1]*10;
+    if (data[0] == "acceleration"){
+      size = data[1]*100;
+    }
     console.log(data);
   });
   ellipse(width/2, height/2, size, size);
