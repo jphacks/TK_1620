@@ -34,23 +34,25 @@
   * @param event
   */
   function deviceorientationHandler(event) {
-      //ジャイロセンサー情報取得
-      // X軸
-      beta = event.beta;
-      // Y軸
-      gamma = event.gamma;
-      // Z軸
-      alpha = event.alpha;
-      var html = "";
-      html += "X回転 : " + beta + "<br>";
-      html += "Y回転 : " + gamma + "<br>";
-      html += 'Z回転 : ' + alpha;
-      $("#debug").html(html);
+    //ジャイロセンサー情報取得
+    // X軸
+    beta = event.beta;
+    // Y軸
+    gamma = event.gamma;
+    // Z軸
+    alpha = event.alpha;
+    var html = "";
+    html += "X回転 : " + beta + "<br>";
+    html += "Y回転 : " + gamma + "<br>";
+    html += 'Z回転 : ' + alpha;
+    $("#debug").html(html);
 
+    /**
     if (event_counter%event_interval ==0){
       socket.emit('sensor_update', ["orientation", beta, gamma, alpha]);
     }
     event_counter += 1;
+    */
 
     $logo.css({
       "-webkit-transform": "rotateX(" + (135 + beta) + "deg) rotateY(" + (180 + gamma) + "deg) rotateZ(" + (180 + alpha) + "deg)",
