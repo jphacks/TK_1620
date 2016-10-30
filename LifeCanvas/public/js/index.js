@@ -7,7 +7,7 @@
   var motionX, motionY, motionZ;
   var motionXprev=0, motionYprev=0, motionZprev=0;
   var event_counter = 0;
-  var event_interval = 10;
+  var event_interval = 20;
 
   $(function () {
     $logo = $("#logo");
