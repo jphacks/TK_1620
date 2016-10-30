@@ -10,13 +10,18 @@ var _weather="SNOWY"; //天気の情報(SUNNY,RAINY,CLOUDY,SNOWY)
 var _frameMaskBl;
 var _frameMaskWh;
 var _frameMaskCol; // フレーム更新時のマスク
-
+var socket;
 
 function setup(){
   createCanvas(_canvasSize,_canvasSize);
   colorMode(HSB, 360, 100, 100, 1);
   background(0);
-
+  socket = io.connect('http://localhost:3001');
+  socket.on('sensor_update', function(data){
+    console.log("from p5: "+data);
+    //socket.broadcast.emit('sensor_update', data);
+    //sensorData=data;
+  });
   _frameMaskBl=color('hsba(1,1%,0%,0.035)');
   _frameMaskWh=color('hsba(1,1%,100%,0.035)');
   _frameMaskCol=_frameMaskBl;
@@ -46,6 +51,8 @@ function setup(){
   gbPad = Synth2( 'pad2', { amp:.85 } ).chord.seq( Rndi(0,2,9), 2 ).fx.add( Delay() );
 
 }
+
+
 
 function draw(){
   noStroke();

@@ -6,7 +6,7 @@ var _canvasSize=720; // キャンバスサイズ
 var _particles=[]; // パーティクルオブジェクトの配列
 var _particleNum=500; // パーティクルの数
 var _sLimit=240; //パーティクルの最大速度
-var _weather="SNOWY"; //天気の情報(SUNNY,RAINY,CLOUDY,SNOWY)
+var _weather="RAINY"; //天気の情報(SUNNY,RAINY,CLOUDY,SNOWY)
 var _frameMaskBl;
 var _frameMaskWh;
 var _frameMaskCol; // フレーム更新時のマスク
@@ -29,28 +29,49 @@ function setup(){
   mouseX=width/2
   mouseY=height/2;
 
+  sleep(1000);
 
-  gbXox=XOX('x.....x.....x...');
+  gbXox=XOX('x.*...x.**..x...');
+  gbXox.fx.add(
+    Crush({
+      bitDepth: 1+15*mouseY/height,
+      sampleRate: mouseX/width
+    })
+  );
+
+  xoxFollow=Follow(gbXox);
+
   gbPluck = Pluck();
-  gbDelay=Delay();
-  gbSeq=Seq({
-    time: Rndi( ms(2), ms(1000) ),
-    durations:1/32,
-    target: gbDelay
-  });
-  gbPluck.note.seq( [0, 2], [1/8,1/16].rnd(1/16,2) ).pan.seq(Rndf(-0.8,0.8)).damping(0.3).fx.add(Schizo());
-  gbPluck.blend.seq( Rndf(0.8,1) );
-  gbPluck.fx.add(gbDelay);
+  gbPluck.fx.add(
+    Delay({
+      time: 50*mouseX/width,
+      feedback: 2*mouseY/height,
+      durations:1/8
+    })
+  );
 
-  gbBass = Mono( 'bass2' ,{waveform:'Square'}).amp(.1).note.seq( [0, 2], [1/8,1/16].rnd(1/16,2) );
-  gbPad = Synth2( 'pad2', { amp:.85 } ).chord.seq( Rndi(0,2,9), 2 ).fx.add( Delay() );
+  gbPluck.note.seq( [0, 2], [1/8,1/16].rnd(1/16,2) ).pan.seq(Rndf(-0.8,0.8)).damping(0.8).fx.add(Schizo());
+  gbPluck.blend.seq( Rndf(0.8,1) );
+
+  gbBass = Mono( 'bass2' ,{waveform:'Square'}).amp(.1).note.seq( [0, 2], [1/8,1/16].rnd(1/16,2) ).fx.add(
+    Flanger({
+      rate: 0.1+19.9*mouseX/width,
+      amount: 200*mouseY/height
+    })
+  );
+  gbPad = Synth2( 'pad2', { amp:.85 } ).chord.seq( Rndi(0,2,9), 2 ).fx.add(
+    Reverb({
+      roomSize: .99,
+      damping: 0.9
+    })
+  );
 
 }
 
 function draw(){
   noStroke();
   // パーティクルを上塗りする量
-   background(_frameMaskCol);
+  background(_frameMaskCol);
 
   // パーティクルの更新と描画
   for(var i=0;i<_particles.length;i++){

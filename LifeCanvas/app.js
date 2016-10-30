@@ -12,19 +12,23 @@ var app = express();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
 
+var sensorData;
+
 app.get('/', function(req, res){
   res.sendFile(__dirname + '/index.html');
 });
 
 app.get('/p5', function(req, res){
-  res.sendFile(__dirname + '/p5.html')  
+  res.sendFile(__dirname + '/p5.html')
 });
 
-io.on('connection', function(socket){
+io.socket.on('connection', function(socket){
   console.log('a user connected');
 
   socket.on('sensor_update', function(data){
-    console.log(data)
+    console.log(data);
+    socket.broadcast.emit('sensor_update', data);
+    //sensorData=data;
   });
 
   socket.on('disconnect', function(){
