@@ -1,3 +1,7 @@
+## publicフォルダ外の静的ファイルを使う（p5.gibber.js）
+* 参考：http://expressjs.com/ja/starter/static-files.html
+* app.js内のapp.useでディレクトリを追加する
+
 ## Node.js
 ### Windows
 1. nodistをインストール
