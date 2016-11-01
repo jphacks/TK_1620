@@ -1,18 +1,21 @@
-## publicフォルダ外の静的ファイルを使う（p5.gibber.js）
-* 参考：http://expressjs.com/ja/starter/static-files.html
-* app.js内のapp.useでディレクトリを追加する
+## Vagrant
+### proxy環境
+* vagrant-proxyconfを使う
+* 参考：http://weblabo.oscasierra.net/vagrant-proxyconf/
+* `vagrant plugin install vagrant-proxyconf`
+* 
 
 ## Node.js
 ### Windows
 1. nodistをインストール
-* `nodist + 5`
-* `nodist global 5`
+* `nodist + 6`
+* `nodist global 6`
 * `node -v`
 * npmが入らなかった場合: `nodist npm global match`
 
 ### Linux
 1. nvmをインストール
-* `nvm install 5`
+* `nvm install 6`
 
 ## express
 ### インストール
@@ -26,8 +29,12 @@
   * package.jsonのdependencies
   * app.js
   * views内の各ファイル
-* 依存ファイル取得：`npm install`
-  * Vagrantの共有フォルダだとシンボリックリンクを作成できないためエラーになる
+* 依存ファイル取得：`npm install --no-bin-links`
+  * Vagrantの共有フォルダだとシンボリックリンクを作成できないためオプションをつけないとエラーになる
+
+### publicフォルダ外の静的ファイルを使う（p5.gibber.js）
+  * 参考：http://expressjs.com/ja/starter/static-files.html
+  * app.js内のapp.useでディレクトリを追加する
 
 ## AWS
 * URL: ec2-54-199-159-238.ap-northeast-1.compute.amazonaws.com
