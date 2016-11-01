@@ -1,7 +1,7 @@
 /********************************************/
 /* グローバル変数
 /********************************************/
-var _canvasSize=720; // キャンバスサイズ
+var _canvasSize=512; // キャンバスサイズ
 
 var _particles=[]; // パーティクルオブジェクトの配列
 var _particleNum=500; // パーティクルの数
@@ -15,7 +15,8 @@ var _pointer;
 // var cnt=0;
 
 function setup(){
-  createCanvas(_canvasSize,_canvasSize);
+  canvas = createCanvas(windowWidth, windowHeight);
+  canvas.parent('p5canvas');
   colorMode(HSB, 360, 100, 100, 1);
   background(0);
 
@@ -298,6 +299,9 @@ Pointer.prototype={
   }
 };
 
+function windowResized() {
+  resizeCanvas(windowWidth, windowHeight);
+}
 
 // var Particle=(function(){//     // クラス変数
 //     //var pos,pre,mouse,sp,ac,col;
