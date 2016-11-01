@@ -6,6 +6,13 @@
 # backwards compatibility). Please don't change it unless you know what
 # you're doing.
 Vagrant.configure("2") do |config|
+  # setting up a proxy
+  if Vagrant.has_plugin?("vagrant-proxyconf")
+    config.proxy.http = ""
+    config.proxy.https = ""
+    config.proxy.no_proxy = "localhost,127.0.0.1"
+  end
+
   # The most common configuration options are documented and commented below.
   # For a complete reference, please see the online documentation at
   # https://docs.vagrantup.com.
@@ -20,9 +27,8 @@ Vagrant.configure("2") do |config|
   # config.vm.box_check_update = false
 
   # Create a forwarded port mapping which allows access to a specific port
-  # within the machine from a port on the host machine. In the example below,
-  # accessing "localhost:8080" will access port 80 on the guest machine.
-  config.vm.network "forwarded_port", guest: 3000, host: 3002
+  config.vm.network "forwarded_port", guest: 3000, host: 3000
+  config.vm.network "forwarded_port", guest: 3001, host: 3001
 
   # Create a private network, which allows host-only access to the machine
   # using a specific IP.
@@ -47,8 +53,8 @@ Vagrant.configure("2") do |config|
   #   # Display the VirtualBox GUI when booting the machine
   #   vb.gui = true
   #
-  #   # Customize the amount of memory on the VM:
-    vb.memory = "4096"
+      # Customize the amount of memory on the VM:
+      vb.memory = "4096"
   end
   #
   # View the documentation for the provider you are using for more
@@ -64,13 +70,17 @@ Vagrant.configure("2") do |config|
   # Enable provisioning with a shell script. Additional provisioners such as
   # Puppet, Chef, Ansible, Salt, and Docker are also available. Please see the
   # documentation for more information about their specific syntax and use.
-  config.vm.provision "shell", inline: <<-SHELL
-    apt-get update
-    apt-get install git
-    # for Node.js
-    curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.32.1/install.sh | bash
-    source ~/.bashrc
-    nvm install 5
+  config.vm.provision "shell", privileged: false, inline: <<-SHELL  # 通常ユーザー権限で実行する
+      sudo apt-get update
+      sudo apt-get install build-essential git -y
+
+      # setup Node.js
+      curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.32.1/install.sh | bash
+      export NVM_DIR="/home/vagrant/.nvm"
+      [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
+      nvm install 6
+
+      npm install express-generator bower -g
 
   SHELL
 end
