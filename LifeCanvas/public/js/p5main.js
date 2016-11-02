@@ -33,7 +33,7 @@ function setup(){
   _pointer.pos.x=width/2;
   _pointer.pos.y=height/2;
 
-
+  
   // gbXox=XOX('x.....x.....x...');
   // gbPluck = Pluck();
   // gbDelay=Delay();
@@ -50,46 +50,46 @@ function setup(){
   // gbPad = Synth2( 'pad2', { amp:.85 } ).chord.seq( Rndi(0,2,9), 2 ).fx.add( Delay() );
 
   gbXox=XOX('x.*...x.**..x...');
- gbXox.fx.add(
-   Crush({
-     bitDepth: 1+15*_pointer.pos.y/height,
-     sampleRate: _pointer.pos.x/width
-   })
- );
+  gbXox.fx.add(
+    Crush({
+      bitDepth: 1+15*_pointer.pos.y/height,
+      sampleRate: _pointer.pos.x/width
+    })
+  );
 
- xoxFollow=Follow(gbXox);
+  xoxFollow=Follow(gbXox);
 
- gbPluck = Pluck();
- gbPluck.fx.add(
-   Delay({
-     time: 50*_pointer.pos.x/width,
-     feedback: 2*_pointer.pos.y/height,
-     durations:1/8
-   })
- );
+  gbPluck = Pluck();
+  gbPluck.fx.add(
+    Delay({
+      time: 50*_pointer.pos.x/width,
+      feedback: 2*_pointer.pos.y/height,
+      durations:1/8
+    })
+  );
 
- gbPluck.note.seq( [0, 2], [1/8,1/16].rnd(1/16,2) ).pan.seq(Rndf(-0.8,0.8)).damping(0.8).fx.add(Schizo());
- gbPluck.blend.seq( Rndf(0.8,1) );
+  gbPluck.note.seq( [0, 2], [1/8,1/16].rnd(1/16,2) ).pan.seq(Rndf(-0.8,0.8)).damping(0.8).fx.add(Schizo());
+  gbPluck.blend.seq( Rndf(0.8,1) );
 
- gbBass = Mono( 'bass2' ,{waveform:'Square'}).amp(.1).note.seq( [0, 2], [1/8,1/16].rnd(1/16,2) ).fx.add(
-   Flanger({
-     rate: 0.1+19.9*_pointer.pos.x/width,
-     amount: 200*_pointer.pos.y/height
-   })
- );
- gbPad = Synth2( 'pad2', { amp:.85 } ).chord.seq( Rndi(0,2,9), 2 ).fx.add(
-   Reverb({
-     roomSize: .99,
-     damping: 0.9
-   })
- );
+  gbBass = Mono( 'bass2' ,{waveform:'Square'}).amp(.1).note.seq( [0, 2], [1/8,1/16].rnd(1/16,2) ).fx.add(
+    Flanger({
+      rate: 0.1+19.9*_pointer.pos.x/width,
+      amount: 200*_pointer.pos.y/height
+    })
+  );
+  gbPad = Synth2( 'pad2', { amp:.85 } ).chord.seq( Rndi(0,2,9), 2 ).fx.add(
+    Reverb({
+      roomSize: .99,
+      damping: 0.9
+    })
+  );
 
 }
 
 function draw(){
   noStroke();
   // パーティクルを上塗りする量
-   background(_frameMaskCol);
+  background(_frameMaskCol);
 
   // パーティクルの更新と描画
   for(var i=0;i<_particles.length;i++){
