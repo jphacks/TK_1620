@@ -7,7 +7,7 @@
   var motionX, motionY, motionZ;
   var motionXprev=0, motionYprev=0, motionZprev=0;
   var event_counter = 0;
-  var event_interval = 10;
+  var event_interval = 5;
 
   $(function () {
     $logo = $("#logo");
@@ -49,12 +49,12 @@
     html += 'Z回転 : ' + alpha;
     $("#debug").html(html);
 
-    
+
     if (event_counter%event_interval ==0){
       socket.emit('sensor_update', ["orientation", beta, gamma, alpha]);
     }
     event_counter += 1;
-    
+
 
     $logo.css({
       "-webkit-transform": "rotateX(" + (135 + beta) + "deg) rotateY(" + (180 + gamma) + "deg) rotateZ(" + (180 + alpha) + "deg)",
