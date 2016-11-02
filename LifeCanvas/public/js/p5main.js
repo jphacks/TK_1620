@@ -142,6 +142,11 @@ function keyTyped() {
     for(var i=0;i<_particles.length;i++){
       _particles[i].colChange();
     }
+  }else if(key=='5'){
+    _weather="THUNDER";
+    for(var i=0;i<_particles.length;i++){
+      _particles[i].colChange();
+    }
   }
   else {
     for(var i=0;i<_particles.length;i++){
@@ -173,6 +178,9 @@ var Particle=function(){
     break;
     case "SNOWY":
     this.col=color(208,round(random(0,100)),100);
+    break;
+    case "THUNDER":
+    this.col=color(random(50,150)%360, 100, 100);
     break;
     default:
     this.col=color(random(360),90,100);
@@ -255,6 +263,9 @@ Particle.prototype={
       break;
       case "SNOWY":
       this.col=color(208,round(random(0,100)),100);
+      break;
+      case "THUNDER":
+      this.col=color(random(50,150)%360, 100, 100);
       break;
       default:
       this.col=color(random(360),90,100);
