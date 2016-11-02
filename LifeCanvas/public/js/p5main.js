@@ -33,7 +33,7 @@ function setup(){
   _pointer.pos.x=width/2;
   _pointer.pos.y=height/2;
 
-  
+
   // gbXox=XOX('x.....x.....x...');
   // gbPluck = Pluck();
   // gbDelay=Delay();
@@ -97,10 +97,13 @@ function draw(){
     _particles[i].draw();
   }
 
+  // テスト用のポイント描画
+  ellipse(_pointer.pos.x, _pointer.pos.y, 10, 10);
+
   socket.on('sensor_data', function(data){
     if (data[0] == "orientation"){
       //size = data[1]*100;
-      _pointer.update(data[1],data[2]);
+      _pointer.update(data[2],data[1]);
     }
     //console.log(data);
   });
@@ -276,26 +279,8 @@ var Pointer=function(){
 
 Pointer.prototype={
   update : function(pointx,pointy){
-    //this.pre=createVector(this.pos.x,this.pos.y);
-    // this.ac.x=pointx;
-    // this.ac.y=pointy;
-    // if(this.pos.x>width || this.pos.x<0){
-    //   this.ac.x*=-1.0;
-    // }
-    // if(this.pos.y<0||this.pos.y>height){
-    //   this.ac.y*=-1.0;
-    // }
-
-    // attraction=createVector(_pointer.pos.x,_pointer.pos.y);
-    // attraction.sub(this.pos);
-    // this.ac.set(attraction);
-    // this.ac.normalize();
-    // this.ac.div(this.tune);
-    // this.sp.add(this.ac);
-    // this.sp.limit(_sLimit*(1.0/60.0));
-    // this.pos.add(this.sp);
-    this.pos.x = (pointx+180)*width/360;
-    this.pos.y = (pointy+180)*height/360;
+    this.pos.x = pointx/90*width+width/2;
+    this.pos.y = pointy/90*height+height/2;
   }
 };
 
