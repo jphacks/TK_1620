@@ -1,7 +1,7 @@
 /********************************************/
 /* グローバル変数
 /********************************************/
-var _canvasSize=720; // キャンバスサイズ
+var _canvasSize=512; // キャンバスサイズ
 
 var _particles=[]; // パーティクルオブジェクトの配列
 var _particleNum=500; // パーティクルの数
@@ -15,7 +15,8 @@ var _pointer;
 // var cnt=0;
 
 function setup(){
-  createCanvas(_canvasSize,_canvasSize);
+  canvas = createCanvas(windowWidth, windowHeight);
+  canvas.parent('p5canvas');
   colorMode(HSB, 360, 100, 100, 1);
   background(0);
 
@@ -49,46 +50,46 @@ function setup(){
   // gbPad = Synth2( 'pad2', { amp:.85 } ).chord.seq( Rndi(0,2,9), 2 ).fx.add( Delay() );
 
   gbXox=XOX('x.*...x.**..x...');
- gbXox.fx.add(
-   Crush({
-     bitDepth: 1+15*_pointer.pos.y/height,
-     sampleRate: _pointer.pos.x/width
-   })
- );
+  gbXox.fx.add(
+    Crush({
+      bitDepth: 1+15*_pointer.pos.y/height,
+      sampleRate: _pointer.pos.x/width
+    })
+  );
 
- xoxFollow=Follow(gbXox);
+  xoxFollow=Follow(gbXox);
 
- gbPluck = Pluck();
- gbPluck.fx.add(
-   Delay({
-     time: 50*_pointer.pos.x/width,
-     feedback: 2*_pointer.pos.y/height,
-     durations:1/8
-   })
- );
+  gbPluck = Pluck();
+  gbPluck.fx.add(
+    Delay({
+      time: 50*_pointer.pos.x/width,
+      feedback: 2*_pointer.pos.y/height,
+      durations:1/8
+    })
+  );
 
- gbPluck.note.seq( [0, 2], [1/8,1/16].rnd(1/16,2) ).pan.seq(Rndf(-0.8,0.8)).damping(0.8).fx.add(Schizo());
- gbPluck.blend.seq( Rndf(0.8,1) );
+  gbPluck.note.seq( [0, 2], [1/8,1/16].rnd(1/16,2) ).pan.seq(Rndf(-0.8,0.8)).damping(0.8).fx.add(Schizo());
+  gbPluck.blend.seq( Rndf(0.8,1) );
 
- gbBass = Mono( 'bass2' ,{waveform:'Square'}).amp(.1).note.seq( [0, 2], [1/8,1/16].rnd(1/16,2) ).fx.add(
-   Flanger({
-     rate: 0.1+19.9*_pointer.pos.x/width,
-     amount: 200*_pointer.pos.y/height
-   })
- );
- gbPad = Synth2( 'pad2', { amp:.85 } ).chord.seq( Rndi(0,2,9), 2 ).fx.add(
-   Reverb({
-     roomSize: .99,
-     damping: 0.9
-   })
- );
+  gbBass = Mono( 'bass2' ,{waveform:'Square'}).amp(.1).note.seq( [0, 2], [1/8,1/16].rnd(1/16,2) ).fx.add(
+    Flanger({
+      rate: 0.1+19.9*_pointer.pos.x/width,
+      amount: 200*_pointer.pos.y/height
+    })
+  );
+  gbPad = Synth2( 'pad2', { amp:.85 } ).chord.seq( Rndi(0,2,9), 2 ).fx.add(
+    Reverb({
+      roomSize: .99,
+      damping: 0.9
+    })
+  );
 
 }
 
 function draw(){
   noStroke();
   // パーティクルを上塗りする量
-   background(_frameMaskCol);
+  background(_frameMaskCol);
 
   // パーティクルの更新と描画
   for(var i=0;i<_particles.length;i++){
@@ -96,10 +97,13 @@ function draw(){
     _particles[i].draw();
   }
 
+  // テスト用のポイント描画
+  ellipse(_pointer.pos.x, _pointer.pos.y, 10, 10);
+
   socket.on('sensor_data', function(data){
     if (data[0] == "orientation"){
       //size = data[1]*100;
-      _pointer.update(data[1],data[2]);
+      _pointer.update(data[2],data[1]);
     }
     //console.log(data);
   });
@@ -138,6 +142,11 @@ function keyTyped() {
     for(var i=0;i<_particles.length;i++){
       _particles[i].colChange();
     }
+  }else if(key=='5'){
+    _weather="THUNDER";
+    for(var i=0;i<_particles.length;i++){
+      _particles[i].colChange();
+    }
   }
   else {
     for(var i=0;i<_particles.length;i++){
@@ -169,6 +178,9 @@ var Particle=function(){
     break;
     case "SNOWY":
     this.col=color(208,round(random(0,100)),100);
+    break;
+    case "THUNDER":
+    this.col=color(random(50,150)%360, 100, 100);
     break;
     default:
     this.col=color(random(360),90,100);
@@ -252,6 +264,9 @@ Particle.prototype={
       case "SNOWY":
       this.col=color(208,round(random(0,100)),100);
       break;
+      case "THUNDER":
+      this.col=color(random(50,150)%360, 100, 100);
+      break;
       default:
       this.col=color(random(360),90,100);
       break;
@@ -275,29 +290,14 @@ var Pointer=function(){
 
 Pointer.prototype={
   update : function(pointx,pointy){
-    //this.pre=createVector(this.pos.x,this.pos.y);
-    // this.ac.x=pointx;
-    // this.ac.y=pointy;
-    // if(this.pos.x>width || this.pos.x<0){
-    //   this.ac.x*=-1.0;
-    // }
-    // if(this.pos.y<0||this.pos.y>height){
-    //   this.ac.y*=-1.0;
-    // }
-
-    // attraction=createVector(_pointer.pos.x,_pointer.pos.y);
-    // attraction.sub(this.pos);
-    // this.ac.set(attraction);
-    // this.ac.normalize();
-    // this.ac.div(this.tune);
-    // this.sp.add(this.ac);
-    // this.sp.limit(_sLimit*(1.0/60.0));
-    // this.pos.add(this.sp);
-    this.pos.x = (pointx+180)*width/360;
-    this.pos.y = (pointy+180)*height/360;
+    this.pos.x = pointx/90*width+width/2;
+    this.pos.y = pointy/90*height+height/2;
   }
 };
 
+function windowResized() {
+  resizeCanvas(windowWidth, windowHeight);
+}
 
 // var Particle=(function(){//     // クラス変数
 //     //var pos,pre,mouse,sp,ac,col;

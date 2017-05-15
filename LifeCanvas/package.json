@@ -1,5 +1,5 @@
 {
-  "name": "web_sensor",
+  "name": "LifeCanvas",
   "version": "0.0.0",
   "private": true,
   "scripts": {
@@ -9,10 +9,11 @@
     "body-parser": "~1.15.1",
     "cookie-parser": "~1.4.3",
     "debug": "~2.2.0",
+    "ect": "^0.5.9",
     "ejs": "~2.4.1",
     "express": "~4.13.4",
     "morgan": "~1.7.0",
-    "p5.gibber.js": "*",
+    "p5.gibber.js": "^0.2.3",
     "serve-favicon": "~2.3.0",
     "socket.io": "^1.5.1"
   }

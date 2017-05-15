@@ -12,7 +12,6 @@ var app = express();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
 
-var size = 0;
 
 app.get('/', function(req, res){
   res.sendFile(__dirname + '/index.html');
@@ -50,6 +49,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'node_modules')));
 
 app.use('scripts', express.static(__dirname + '/node_modules/'));
 app.use('/', routes);
